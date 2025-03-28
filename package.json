@@ -1,6 +1,7 @@
 {
   "name": "threejs-typescript-starter",
   "version": "1.0.0",
+  "packageManager": "yarn@1.22.18",
   "scripts": {
     "dev": "vite",
     "build": "yarn install --frozen-lockfile && vite build",
