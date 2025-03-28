@@ -16,7 +16,7 @@ export default class DirectionalLightControl {
         // Default Light Properties
         this.lightParams = {
             color: 0xF0997D,
-            intensity: 0.8,
+            intensity: 4,
             positionX: -60,
             positionY: 100,
             positionZ: -10,
@@ -57,7 +57,7 @@ export default class DirectionalLightControl {
         this.guiFolder = this.gui.addFolder('Directional Light');
         // Add controls for all light properties
         this.guiFolder.addColor(this.lightParams, 'color').onChange(this.updateLight.bind(this));
-        this.guiFolder.add(this.lightParams, 'intensity', 0, 2).onChange(this.updateLight.bind(this));
+        this.guiFolder.add(this.lightParams, 'intensity', 0, 20).onChange(this.updateLight.bind(this));
         this.guiFolder.add(this.lightParams, 'positionX', -100, 100).onChange(this.updateLight.bind(this));
         this.guiFolder.add(this.lightParams, 'positionY', -100, 200).onChange(this.updateLight.bind(this));
         this.guiFolder.add(this.lightParams, 'positionZ', -100, 100).onChange(this.updateLight.bind(this));
