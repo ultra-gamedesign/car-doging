@@ -3,10 +3,9 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "stats.js";
 import GUI from "lil-gui";
 
-import { Cube } from "./objects/Cube";
-import { Sphere } from "./objects/Sphere";
-import { Torus } from "./objects/Torus";
 import {CarObject} from "./objects/CarObject";
+import {UserInput} from "./classes/UserInput";
+import {Floor} from "./objects/Floor";
 
 export class App {
   private scene!: THREE.Scene;
@@ -15,6 +14,10 @@ export class App {
   private controls!: OrbitControls;
   private stats!: Stats;
   private gui!: GUI;
+
+  private userInput!: UserInput; // Instance of UserInput
+  private car: CarObject;
+  private floor: Floor;
 
   async init() {
     this.scene = new THREE.Scene();
@@ -44,9 +47,16 @@ export class App {
     this.scene.add(ambient, directional);
 
     // === Objects ===
-    const car = new CarObject();
-    await car.load();
-    this.scene.add(car.mesh);
+    this.car = new CarObject();
+    await this.car.load();
+    this.scene.add(this.car.mesh);
+
+    // === Floor ===
+    this.floor = new Floor(); // Create the floor
+    this.scene.add(this.floor.mesh);
+    
+    // === UserInput ===
+    this.userInput = new UserInput(); // Initialize the UserInput class
 
     // === Stats ===
     this.stats = new Stats();
@@ -56,9 +66,9 @@ export class App {
     // === GUI ===
     this.gui = new GUI();
     const carfolder = this.gui.addFolder("Cube");
-    carfolder.add(car.mesh.position, "x", -5, 5).name("Position X");
+    carfolder.add(this.car.mesh.position, "x", -5, 5).name("Position X");
     carfolder
-      .add(car.mesh.rotation, "y", 0, Math.PI * 2)
+      .add(this.car.mesh.rotation, "y", 0, Math.PI * 2)
       .name("Rotation Y");
 
     carfolder.open();
@@ -68,12 +78,14 @@ export class App {
 
   animate = () => {
     requestAnimationFrame(this.animate);
-    this.stats.begin();
+    this.stats?.begin();
 
+    // Let UserInput handle car movement and rotation
+    this.userInput?.handleCarMovement(this.car);
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
 
-    this.stats.end();
+    this.stats?.end();
   };
 
   private onWindowResize() {
