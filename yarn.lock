@@ -248,6 +248,11 @@
   resolved "https://registry.yarnpkg.com/@types/webxr/-/webxr-0.5.21.tgz#2e25353af14c7569bcf082f2fb75921d2130db7e"
   integrity sha512-geZIAtLzjGmgY2JUi6VxXdCrTb99A7yP49lxLr2Nm/uIK0PkkxcEi4OGhoGDO4pxCf3JwGz2GiJL2Ej4K2bKaA==
 
+cannon-es@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/cannon-es/-/cannon-es-0.20.0.tgz#bf2f62a674701f37e3d861c90668a32d4d32f082"
+  integrity sha512-eZhWTZIkFOnMAJOgfXJa9+b3kVlvG+FX4mdkpePev/w/rP5V8NRquGyEozcjPfEoXUlb+p7d9SUcmDSn14prOA==
+
 esbuild@^0.21.3:
   version "0.21.5"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.21.5.tgz#9ca301b120922959b766360d8ac830da0d02997d"
