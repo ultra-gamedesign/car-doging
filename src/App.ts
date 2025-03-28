@@ -6,6 +6,7 @@ import GUI from "lil-gui";
 import { Cube } from "./objects/Cube";
 import { Sphere } from "./objects/Sphere";
 import { Torus } from "./objects/Torus";
+import {CarObject} from "./objects/CarObject";
 
 export class App {
   private scene!: THREE.Scene;
@@ -15,11 +16,7 @@ export class App {
   private stats!: Stats;
   private gui!: GUI;
 
-  private cube!: Cube;
-  private sphere!: Sphere;
-  private torus!: Torus;
-
-  init() {
+  async init() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x202020);
 
@@ -47,14 +44,9 @@ export class App {
     this.scene.add(ambient, directional);
 
     // === Objects ===
-    this.cube = new Cube();
-    this.scene.add(this.cube.mesh);
-
-    this.sphere = new Sphere();
-    this.scene.add(this.sphere.mesh);
-
-    this.torus = new Torus();
-    this.scene.add(this.torus.mesh);
+    const car = new CarObject();
+    await car.load();
+    this.scene.add(car.mesh);
 
     // === Stats ===
     this.stats = new Stats();
@@ -63,27 +55,19 @@ export class App {
 
     // === GUI ===
     this.gui = new GUI();
-    const cubeFolder = this.gui.addFolder("Cube");
-    cubeFolder.add(this.cube.mesh.position, "x", -5, 5).name("Position X");
-    cubeFolder
-      .add(this.cube.mesh.rotation, "y", 0, Math.PI * 2)
+    const carfolder = this.gui.addFolder("Cube");
+    carfolder.add(car.mesh.position, "x", -5, 5).name("Position X");
+    carfolder
+      .add(car.mesh.rotation, "y", 0, Math.PI * 2)
       .name("Rotation Y");
-    cubeFolder
-      .addColor({ color: "#ff0000" }, "color")
-      .name("Color")
-      .onChange((value: string) => {
-        (this.cube.mesh.material as THREE.MeshStandardMaterial).color.set(
-          value
-        );
-      });
-    cubeFolder.open();
+
+    carfolder.open();
 
     window.addEventListener("resize", this.onWindowResize.bind(this));
   }
 
   animate = () => {
     requestAnimationFrame(this.animate);
-
     this.stats.begin();
 
     this.controls.update();
